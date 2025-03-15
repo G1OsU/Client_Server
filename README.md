@@ -17,7 +17,7 @@ Il progetto simula una comunicazione C-S attraverso il protocollo UDP.
 ## Requisiti
 
 - **Java 8.0**.
-- **Un IDEE**.
+- **Un IDE**.
 
 ## Crediti
 @mciuchetti

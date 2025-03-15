@@ -57,10 +57,28 @@ public class Client {
         //si inviano i dati
         try {
             dSocket.send(outPacket);
+            receive();
         } catch (IOException e) {
             System.err.println("Errore di invio");
         }
 
+
+
+    }
+    public void receive(){
+            byte[] bufferIn = new byte[256];
+
+            inPacket = new DatagramPacket(bufferIn, bufferIn.length);
+
+            try {
+                dSocket.receive(inPacket);
+            } catch (IOException e) {
+                System.err.println("Errore");
+            }
+
+
+            String messageIn = new String(inPacket.getData(), 0, inPacket.getLength());
+            System.out.println("Messaggio Server: " + messageIn);
 
 
     }

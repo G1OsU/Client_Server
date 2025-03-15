@@ -9,6 +9,9 @@ public class Server {
     DatagramSocket dSocket;
     DatagramPacket inPacket;
     byte[] bufferIn;
+    public static final String giallo = "\u001B[33m";
+    public static final String reset = "\u001B[0m";
+
 
     String messageIn;
 
@@ -47,12 +50,31 @@ public class Server {
                 System.err.println("Errore");
             }
 
-
+            int clientPort = inPacket.getPort();
+            InetAddress clientAddress = inPacket.getAddress();
             messageIn = new String(inPacket.getData(), 0, inPacket.getLength());
-            System.out.println("Messaggio Client: " + messageIn);
-
+            System.out.println("Messaggio Client "+clientAddress+":"+ clientPort+": "+giallo + messageIn+reset);
+            send();
 
         }
+    }
+    public void send() {
+        InetAddress clientAddress = inPacket.getAddress();
+        int clientPort = inPacket.getPort();
+        //si crea un oggetto Date con la data corrente
+        Date d = new Date();
+        //si crea il messaggio del server in uscita associandolo alla connessione aperta con il client
+        String messageOut = d.toString();
+        byte[] bufferOut = messageOut.getBytes();
+        //si crea un datagramma UDP in cui trasportare il messaggio di lunghezza length
+        DatagramPacket outPacket = new DatagramPacket(bufferOut, bufferOut.length, clientAddress, clientPort);
+        //si invia il messaggio al client
+        try {
+            dSocket.send(outPacket);
+        } catch (IOException e) {
+            System.err.println("Errore");
+        }
+
     }
 }
 
